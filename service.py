@@ -130,7 +130,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, message: str) 
         add_labels(pr_id, neccessary_labels)
         log.info("Added labels: %s", json.dumps(neccessary_labels, indent=2))
 
-        await asyncio.sleep(3)
+        await asyncio.sleep(5)
 
         await update.message.reply_text("Setting ok-to-test label...")
         add_labels(pr_id, neccessary_labels + ["ok-to-test"])
