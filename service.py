@@ -26,6 +26,7 @@ import logging
 import subprocess
 import traceback
 import time
+import asyncio
 
 from urllib.parse import urlparse
 from telegram import Update
@@ -129,7 +130,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, message: str) 
         add_labels(pr_id, neccessary_labels)
         log.info("Added labels: %s", json.dumps(neccessary_labels, indent=2))
 
-        time.sleep(3)
+        await asyncio.sleep(3)
 
         await update.message.reply_text("Setting ok-to-test label...")
         add_labels(pr_id, neccessary_labels + ["ok-to-test"])
@@ -152,7 +153,7 @@ async def url_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         return ConversationHandler.END
 
     try:
-        run(update, context, update.message.text)
+        await run(update, context, update.message.text)
 
     except (IndexError, ValueError, RuntimeError) as ex:
         log.error("Exception occurred during 'url_message':\n%s",
