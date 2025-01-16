@@ -90,7 +90,7 @@ async def start(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 def parse_url(url: str) -> str:
     pr_url = urlparse(url)
     if pr_url.netloc != "github.com":
-        raise RuntimeError("Weird url")
+        raise RuntimeError("Weird url. netloc = {}".format(pr_url.netloc))
 
     PATH_PREFIX = "/ydb-platform/nbs/pull/"
     if not pr_url.path.startswith(PATH_PREFIX):
@@ -98,7 +98,7 @@ def parse_url(url: str) -> str:
 
     pr_id = pr_url.path.removeprefix(PATH_PREFIX)
     if not pr_id.isdigit() or len(pr_id) > 5:
-        raise RuntimeError("Can't parse pr id")
+        raise RuntimeError("Can't parse pr id: {}".format(pr_id))
 
     return pr_id
 
