@@ -104,6 +104,9 @@ def parse_url(url: str) -> str:
 
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, message: str) -> int:
+    if message.startswith("/run_tests "):
+        message = message.removeprefix("/run_tests ")
+
     pr_id = parse_url(message)
     labels = list_labels(pr_id)
     if type(labels) is not list:
