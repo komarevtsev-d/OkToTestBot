@@ -150,6 +150,7 @@ async def url_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     if update.message.from_user.username not in telegram_logins:
         log.warning("Unknown user %s. Users: %s",
                     update.message.from_user.username, json.dumps(telegram_logins))
+        await update.message.reply_text("I don't know you.")
         return ConversationHandler.END
 
     try:
@@ -158,7 +159,7 @@ async def url_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     except (IndexError, ValueError, RuntimeError) as ex:
         log.error("Exception occurred during 'url_message':\n%s",
                   traceback.format_exc())
-        await update.effective_message.reply_text("Usage: /run_tests <url>")
+        await update.message.reply_text("Usage: /run_tests <url>")
 
     return ConversationHandler.END
 
@@ -174,11 +175,12 @@ async def run_tests(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if update.message.from_user.username not in telegram_logins:
         log.warning("Unknown user %s. Users: %s",
                     update.message.from_user.username, json.dumps(telegram_logins))
+        await update.message.reply_text("I don't know you.")
         return ConversationHandler.END
 
     try:
         if (len(context.args) == 0):
-            await update.effective_message.reply_text("Send url to the PR, e.g. https://github.com/ydb-platform/nbs/pull/xxx")
+            await update.message.reply_text("Send url to the PR, e.g. https://github.com/ydb-platform/nbs/pull/xxx")
             return WAITING_FOR_URL
 
         await run(update, context, context.args[0])
@@ -186,7 +188,7 @@ async def run_tests(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     except (IndexError, ValueError, RuntimeError):
         log.error("Exception occurred during 'run_tests':\n%s",
                   traceback.format_exc())
-        await update.effective_message.reply_text("Usage: /run_tests <url>")
+        await update.message.reply_text("Usage: /run_tests <url>")
 
     return ConversationHandler.END
 
