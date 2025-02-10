@@ -160,7 +160,7 @@ async def url_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         await run(update, context, update.message.text)
 
     except (IndexError, ValueError, RuntimeError) as ex:
-        log.error("Exception occurred during 'url_message':\n%s",
+        log.error("Exception occurred and handled during 'url_message':\n%s",
                   traceback.format_exc())
         await update.message.reply_text("Usage: /run_tests <url>")
 
@@ -189,7 +189,7 @@ async def run_tests(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         await run(update, context, context.args[0])
 
     except (IndexError, ValueError, RuntimeError):
-        log.error("Exception occurred during 'run_tests':\n%s",
+        log.error("Exception occurred and handled during 'run_tests':\n%s",
                   traceback.format_exc())
         await update.message.reply_text("Usage: /run_tests <url>")
 
